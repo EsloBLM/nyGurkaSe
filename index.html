@@ -1,0 +1,97 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Gurka.se unblocked</title>
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    <script type="text/javascript">
+        function sleep(time){
+             return new Promise((resolve)=>setTimeout(resolve,time)
+            )
+        }
+        //let clicked = false;
+        let rotateDegrees = 0;
+        let spinSpeed = 0;
+        let accelertion = 0.995
+        let click = false
+        let every360 = 360;
+        let Laps = 0;
+        let seconds = 0;
+        $(function() {
+
+            $('#Knappen').on('click', function () {
+                spinSpeed += 3
+                accelertion += 0.00001
+                console.log(accelertion)
+            })
+
+        })
+
+        let lastTime
+        function spinningGurka () {
+                let time = window.performance.now()
+                let dt = (time - lastTime) / 1000
+                let lapsPerSecond = (spinSpeed / dt) / 360
+                let flooredLaps = Math.floor(lapsPerSecond * 100) / 100
+                lastTime = time
+                $("#antalVarvPerSekund").text("Laps per second: " + flooredLaps) 
+                
+                if (accelertion >= 1) {
+                    accelertion = 0.999
+                }
+
+                document.getElementById("Bilden").style.transform = "rotate(" + rotateDegrees + "deg)";
+                rotateDegrees += spinSpeed
+                spinSpeed = spinSpeed * accelertion
+                let flooredRotateDegreees = Math.floor(rotateDegrees)
+                    
+                Laps = Math.floor(flooredRotateDegreees / 360) 
+                
+                $("#antalVarv").text("Laps: " + Laps)
+
+          window.requestAnimationFrame(spinningGurka)
+        }
+        window.requestAnimationFrame(spinningGurka)
+        
+    </script>
+</head>
+<style>
+#antalVarv {
+        margin-top: 125px;
+        margin-left:400px;
+
+    }
+
+#antalVarvPerSekund {
+    margin-top: -35px;
+    margin-left:700px;   
+}
+#Knappen {
+    position: absolute;
+    width: 350px;
+    height: 300px;
+    margin-top: 100px;
+    margin-left: -350px;
+    opacity: 0;
+}
+#Bilden {
+    width: 350px;
+    height: 300px;   
+    margin-top: 100px;
+    margin-left: 450px;
+}
+
+
+
+</style>
+    
+<body>
+    <img id="Bilden"src="/gurka.png" alt="Bild på en gurka"> 
+    <button type="Button"  id="Knappen"> </button>
+    <p id="antalVarv" >Laps: </p>
+    <p id="antalVarvPerSekund"> Laps per second: </p>
+    <button >Login</button> 
+</body>
+</html>
